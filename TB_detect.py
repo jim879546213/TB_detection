@@ -79,20 +79,19 @@ def img_class_predict(imgs, threshold = 1., score_threshold = 0.4):
     else:return False
 
 
-def predict(img_path,thredhold):
+def predict(img_path,threshold):
   img = cv2.imread(img_path)
   predict_t=img_class_predict(img,score_threshold=threshold)
+  return predict_t
 
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='test.py')
-    parser.add_argument('--img_path', nargs='', type=str, help='paht of image to predict')
+    parser.add_argument('--img_path', type=str, default='' help='paht of image to predict')
     parser.add_argument('--weight', type=str, default='', help='trained_model_weight')
     parser.add_argument('--threshod', type=float, default=0.7, help='confidence threshold')
     opt = parser.parse_args()
-    opt.save_json |= opt.data.endswith('coco.yaml')
-    opt.data = check_file(opt.data)  # check file
     #print(opt)
     weights, imgsz = \
     opt.weight, 576
