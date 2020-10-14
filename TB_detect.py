@@ -4,7 +4,6 @@ import os
 import time
 import numpy as np
 import torch
-%cd /content/yolov5
 
 from models.experimental import attempt_load
 from utils.general import non_max_suppression
