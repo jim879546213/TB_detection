@@ -106,3 +106,4 @@ if __name__ == '__main__':
         print("This image is positive image")
     else:
         print("This image is negative image")
+        
