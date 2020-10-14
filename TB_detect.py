@@ -104,5 +104,5 @@ if __name__ == '__main__':
     outcome = predict(opt.img_path,opt.threshold)
     if outcome:
         print("This image is positive image")
-     else:
+    else:
         print("This image is negative image")
