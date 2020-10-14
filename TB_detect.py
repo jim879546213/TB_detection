@@ -87,7 +87,7 @@ def predict(img_path,threshold):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog='test.py')
+    parser = argparse.ArgumentParser()
     parser.add_argument('--img_path', type=str, default='' help='paht of image to predict')
     parser.add_argument('--weight', type=str, default='', help='trained_model_weight')
     parser.add_argument('--threshod', type=float, default=0.7, help='confidence threshold')
