@@ -90,7 +90,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--img_path', type=str, default='' help='paht of image to predict')
     parser.add_argument('--weight', type=str, default='', help='trained_model_weight')
-    parser.add_argument('--threshod', type=float, default=0.7, help='confidence threshold')
+    parser.add_argument('--threshold', type=float, default=0.7, help='confidence threshold')
     opt = parser.parse_args()
     #print(opt)
     weights, imgsz = \
@@ -102,4 +102,7 @@ if __name__ == '__main__':
     if half:
         model.half()  # to FP16
     outcome = predict(opt.img_path,opt.threshold)
-    print(outcome)
+    if outcome:
+        print("This image is positive image")
+     else:
+        print("This image is negative image")
