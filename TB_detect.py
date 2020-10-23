@@ -128,13 +128,13 @@ def bb_visualization(imgs,  score_threshold = 0.4):
 
 
 def visualization(img_path):
-    img0 = cv2.imread(input)
+    img0 = cv2.imread(img_path)
     output = bb_visualization(img0,score_threshold = 0.5)
     #visualization
     for i in range(len(output)):
         cv2.rectangle(img0,(output[i][0],output[i][1]),(output[i][2],output[i][3]),(255,255,255),2)
         cv2.putText(img0,str(round(output[i][4],2)),(output[i][0]-5,output[i][1]-5),cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0,255,255),thickness=2)
-    cv2_imshow(img0)
+    return img0
 
 
 if __name__ == '__main__':
@@ -159,6 +159,7 @@ if __name__ == '__main__':
     else:
         print("This image is negative image")
     if opt.show_output:
-        visualization(opt.img_path)
+        img = visualization(opt.img_path)
+        cv2_imshow(img)
         
         
