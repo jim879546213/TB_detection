@@ -4,6 +4,7 @@ import os
 import time
 import numpy as np
 import torch
+from google.colab.patches import cv2_imshow
 
 from models.experimental import attempt_load
 from utils.general import non_max_suppression
@@ -64,7 +65,7 @@ def img_class_predict(imgs, threshold = 1., score_threshold = 0.4):
                 img = img.unsqueeze(0)
             model.eval()
             pred = model(img, augment='store_true')[0]
-            pred_nms = non_max_suppression(pred, score_threshold, 0.5, agnostic='store_true')#0.4表示要多少信心度以上才選
+            pred_nms = non_max_suppression(pred, score_threshold, 0.9, agnostic='store_true')#0.4表示要多少信心度以上才選
             if pred_nms != [None]:
                 N += int(len(pred_nms[0]))
             else: pass
@@ -78,12 +79,62 @@ def img_class_predict(imgs, threshold = 1., score_threshold = 0.4):
         return True
     else:return False
 
-
 def predict(img_path,threshold):
   img = cv2.imread(img_path)
   predict_t=img_class_predict(img,score_threshold=threshold)
   return predict_t
 
+#視覺化完整的一張圖
+def bb_visualization(imgs,  score_threshold = 0.4):
+    top, down = 0, 576
+    rag = 528
+    N = 0
+    predict_bbox = []
+    reshape_ratio =1
+    #predict_bbox_dict = {}
+    for h in range(4):
+        left, right = 0, 576
+        for w in range(4):
+            img_crop=imgs[left:right,top:down]
+            #Padded resize
+            img = letterbox(img_crop, new_shape=576)[0]
+            #Convert
+            img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
+            img = np.ascontiguousarray(img)
+            img = torch.from_numpy(img).to(device)
+            img = img.half() if half else img.float()  # uint8 to fp16/32
+            img /= 255.0  # 0 - 255 to 0.0 - 1.0
+            if img.ndimension() == 3:
+                img = img.unsqueeze(0)
+            model.eval()
+            pred = model(img, augment='store_true')[0]
+            pred_nms = non_max_suppression(pred, score_threshold, 0.5, agnostic='store_true')#0.4表示要多少信心度以上才選
+            if pred_nms != [None]:
+                for i in range(len(pred_nms[0])):
+                    bb_left = int(left+pred_nms[0][i][0]*reshape_ratio)
+                    bb_top = int(top+pred_nms[0][i][1]*reshape_ratio)
+                    bb_right = int(left+pred_nms[0][i][2]*reshape_ratio)
+                    bb_down = int(top+pred_nms[0][i][3]*reshape_ratio)
+                    predict_bbox.append([bb_left, bb_top, bb_right, bb_down, float(pred_nms[0][i][4])])
+                
+                
+            else: pass
+            
+            left += rag
+            right += rag
+        top += rag
+        down += rag
+    return predict_bbox
+
+
+def visualization(img_path):
+    img0 = cv2.imread(input)
+    output = bb_visualization(img0,score_threshold = 0.5)
+    #visualization
+    for i in range(len(output)):
+    cv2.rectangle(img0,(output[i][0],output[i][1]),(output[i][2],output[i][3]),(255,255,255),2)
+    cv2.putText(img0,str(round(output[i][4],2)),(output[i][0]-5,output[i][1]-5),cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0,255,255),thickness=2)
+    cv2_imshow(img0)
 
 
 if __name__ == '__main__':
@@ -91,6 +142,7 @@ if __name__ == '__main__':
     parser.add_argument('--img_path', type=str, default='', help='paht of image to predict')
     parser.add_argument('--weight', type=str, default='', help='trained_model_weight')
     parser.add_argument('--threshold', type=float, default=0.7, help='confidence threshold')
+    parser.add_argument('--show_output', type=bool, default=False, help='confidence threshold')
     opt = parser.parse_args()
     #print(opt)
     weights, imgsz = \
@@ -106,4 +158,7 @@ if __name__ == '__main__':
         print("This image is positive image")
     else:
         print("This image is negative image")
+    if opt.show_output:
+        visualization(opt.img_path)
+        
         
