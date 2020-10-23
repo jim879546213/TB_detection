@@ -4,7 +4,7 @@ import os
 import time
 import numpy as np
 import torch
-from google.colab.patches import cv2_imshow
+#from google.colab.patches import cv2_imshow
 
 from models.experimental import attempt_load
 from utils.general import non_max_suppression
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     parser.add_argument('--img_path', type=str, default='', help='paht of image to predict')
     parser.add_argument('--weight', type=str, default='', help='trained_model_weight')
     parser.add_argument('--threshold', type=float, default=0.7, help='confidence threshold')
-    parser.add_argument('--show_output', type=bool, default=False, help='confidence threshold')
+    #parser.add_argument('--show_output', type=bool, default=False, help='confidence threshold')#目前還無法在colab上顯示,所以先不開放
     opt = parser.parse_args()
     #print(opt)
     weights, imgsz = \
@@ -158,8 +158,8 @@ if __name__ == '__main__':
         print("This image is positive image")
     else:
         print("This image is negative image")
-    if opt.show_output:
-        img = visualization(opt.img_path)
-        cv2_imshow(img)
+#     if opt.show_output:
+#         img = visualization(opt.img_path)
+#         cv2_imshow(img)
         
         
