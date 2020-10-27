@@ -1,0 +1,32 @@
+# Hyperparameter Evolution Results
+# Generations: 300
+# Metrics:      0.309     0.961      0.89     0.572   0.00834   0.00411         0
+
+lr0: 0.00837
+lrf: 0.181
+momentum: 0.971
+weight_decay: 0.00045
+warmup_epochs: 2.77
+warmup_momentum: 0.816
+warmup_bias_lr: 0.0879
+box: 0.0314
+cls: 0.478
+cls_pw: 1.04
+obj: 1.24
+obj_pw: 1.04
+iou_t: 0.2
+anchor_t: 4.3
+anchors: 2.0
+fl_gamma: 0.0
+hsv_h: 0.0145
+hsv_s: 0.756
+hsv_v: 0.349
+degrees: 0.0
+translate: 0.0953
+scale: 0.499
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5
+mosaic: 0.95
+mixup: 0.0
