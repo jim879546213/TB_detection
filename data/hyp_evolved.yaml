@@ -16,7 +16,7 @@ obj: 1.24
 obj_pw: 1.04
 iou_t: 0.2
 anchor_t: 4.3
-#anchors: 2.0
+anchors: 2.0
 fl_gamma: 0.0
 hsv_h: 0.0145
 hsv_s: 0.756
@@ -26,7 +26,7 @@ translate: 0.0953
 scale: 0.499
 shear: 0.0
 perspective: 0.0
-flipud: 0.0
+flipud: 0.5
 fliplr: 0.5
-mosaic: 0.95
+mosaic: 0.0
 mixup: 0.0
