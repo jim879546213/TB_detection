@@ -280,9 +280,9 @@ def adjust_xy(x,y,range=32):
     return int(top), int(down), int(left), int(right)
 
 
-def classify(output,img_path,device="cpu",model_cls=None):
+def classify(output,img_path,device="cpu",model_cls=None,nor_mean=[0.1086, 0.0688, 0.0000],nor_std=[0.2120, 0.1158, 1]):
     if output != []:
-        transform = transforms.Compose([transforms.ToTensor(),transforms.Normalize([0.1026, 0.0378, 0.0000],[0.1864, 0.0632, 1])])
+        transform = transforms.Compose([transforms.ToTensor(),transforms.Normalize(nor_mean,nor_std)])
         img = Image.open(img_path)
         img_crop_combine = None
         for i in range(len(output)):
