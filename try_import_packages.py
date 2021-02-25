@@ -38,21 +38,20 @@ def return_model(obj_path = "pth\\best_adj.pt", cls_res_path = None,cls_next_pat
     #model_cls.fc = nn.Linear(2048, 2)
     if cls_res_path is not None:
         model_cls = models.resnet18(pretrained=False)
-        model_cls.fc = nn.Linear(512, 2)
+        model_cls.fc = nn.Sequential(nn.Linear(512, 1),nn.Sigmoid())
 
         model_cls.to(device_cls)
         model_cls.load_state_dict(torch.load(cls_res_path))
         model_cls.eval()
     elif cls_next_path is not None:
         model_cls = models.resnext50_32x4d(pretrained=False)
-        model_cls.fc = nn.Linear(2048, 2)
+        model_cls.fc = nn.Sequential(nn.Linear(2048, 1),nn.Sigmoid())
 
         model_cls.to(device_cls)
         model_cls.load_state_dict(torch.load(cls_next_path))
         model_cls.eval()
 
     return model_obj, model_cls
-
 
 def letterbox(img, new_shape=(576, 576), color=(114, 114, 114), auto=True, scaleFill=False, scaleup=True):
     # Resize image to a 32-pixel-multiple rectangle https://github.com/ultralytics/yolov3/issues/232
