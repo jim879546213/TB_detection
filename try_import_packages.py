@@ -301,7 +301,7 @@ def adjust_xy(x,y,range=32):
 #         output = [0]
 #     return output
 
-def classify(output,img_path,device="cpu",model_cls=None,nor_mean=[0.1149, 0.0821, 0.0000],nor_std=[0.2394, 0.1480, 1]):
+def classify(output,img_path,device="cpu",model_cls=None,nor_mean=[0.1037, 0.0704, 0.0000],nor_std=[0.2372, 0.1422, 1]):
     if output != []:
         transform = transforms.Compose([transforms.ToTensor(),transforms.Normalize(nor_mean,nor_std)])
         img = Image.open(img_path)
